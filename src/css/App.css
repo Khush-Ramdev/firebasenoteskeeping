@@ -1,7 +1,14 @@
+@import url(./List.css);
+@import url(./modal.css);
+@import url(./Notes.css);
+@import url(./Login.css);
+@import url(./Signup.css);
+@import url(./projects.css);
 body {
     margin: 0;
     padding: 0;
     font-size: 62.5%;
+    font-family: "Poppins", sans-serif;
 }
 h1,
 h2,

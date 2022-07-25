@@ -8,13 +8,14 @@ function Signup() {
         setError("");
     };
 
+    const [remember, setRemember] = useState(false);
+    const [showPass, setShowPass] = useState(false);
+
     const { user, createUser } = UserAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(emailref.current.value));
-        console.log(passwordref.current.value, nameref.current.value, emailref.current.value);
         if (nameref.current.value === "") {
             setError(`Name cannot be empty`);
         } else if (emailref.current.value === "") {
@@ -27,7 +28,7 @@ function Signup() {
             setError(`Password should atleast be 6 characters`);
         } else {
             try {
-                await createUser(emailref.current.value, passwordref.current.value);
+                await createUser(emailref.current.value, passwordref.current.value, remember);
                 navigate("/");
             } catch (e) {
                 setError(e.message);
@@ -42,8 +43,9 @@ function Signup() {
     const [error, setError] = useState("");
 
     let activeStyle = {
-        textDecoration: "underline",
+        cursor: "none",
         fontWeight: "bold",
+        color: "#1A3B58",
     };
 
     useEffect(() => {
@@ -54,46 +56,86 @@ function Signup() {
     }, [user, navigate]);
 
     return (
-        <div>
-            <div className="signupcomponent">
-                <div className="signupimage">
-                    <img src={image} alt="groupimage" />
-                </div>
-                <div>
-                    <NavLink to="/login">Log In</NavLink>
+        <div className="signupcomponent">
+            <div className="signupimage">
+                <img src={image} alt="groupimage" />
+            </div>
+            <div className="signupcontent">
+                <div className="links">
+                    <NavLink to="/login" className="navlink">
+                        Log In
+                    </NavLink>
                     <NavLink
                         to="/signup"
                         style={({ isActive }) => (isActive ? activeStyle : undefined)}
                     >
                         Sign Up
                     </NavLink>
-                    <div>To Continue</div>
-                    <div>We need your Name & Email</div>
                 </div>
-                <form>
-                    <input
-                        placeholder="Full Name"
-                        ref={nameref}
-                        onChange={handleChange}
-                        name="name"
-                    ></input>
-                    <input
-                        placeholder="Email"
-                        type="email"
-                        ref={emailref}
-                        onChange={handleChange}
-                        name="email"
-                    ></input>
-                    <input
-                        placeholder="Pasword"
-                        type="password"
-                        ref={passwordref}
-                        onChange={handleChange}
-                        name="password"
-                    ></input>
-                    {error}
-                    <button onClick={handleSubmit}>Submit</button>
-                </form>
+                <div className="signupform">
+                    <div style={{ fontSize: "1.25rem" }}>To Continue</div>
+                    <div style={{ fontSize: "0.75rem", fontWeight: "300", color: "#999999" }}>
+                        We need your Email & Password
+                    </div>
+                    <form>
+                        <input
+                            className="inputfields"
+                            placeholder="Full Name"
+                            ref={nameref}
+                            onChange={handleChange}
+                            name="name"
+                        ></input>
+                        <input
+                            className="inputfields"
+                            placeholder="Email"
+                            type="email"
+                            ref={emailref}
+                            onChange={handleChange}
+                            name="email"
+                        ></input>
+                        <div style={{ position: "relative" }}>
+                            <input
+                                className="inputfields"
+                                placeholder="Pasword"
+                                type={showPass ? "text" : "password"}
+                                ref={passwordref}
+                                onChange={handleChange}
+                                name="password"
+                            ></input>
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setShowPass(!showPass);
+                                }}
+                                className="showpass"
+                            >
+                                {showPass ? "hide" : "show"}
+                            </button>
+                        </div>
+                        <div className="errorcodes">{error}</div>
+                        <button className="inputfields signupbutton" onClick={handleSubmit}>
+                            Submit
+                        </button>
+                        <input
+                            className="input"
+                            type="checkbox"
+                            name="rememberme"
+                            checked={remember}
+                            onChange={() => {
+                                setRemember(!remember);
+                            }}
+                        ></input>
+                        <label
+                            htmlFor="rememberme "
+                            className="rememberme"
+                            onClick={() => {
+                                setRemember(!remember);
+                            }}
+                        >
+                            Remember Me
+                        </label>
+                    </form>
+                </div>
             </div>
         </div>
     );

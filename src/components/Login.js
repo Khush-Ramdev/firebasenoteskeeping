@@ -9,6 +9,7 @@ function Login() {
     const emailref = useRef();
     const [error, setError] = useState("");
     const [remember, setRemember] = useState(false);
+    const [showPass, setShowPass] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
         console.log(remember);
@@ -36,8 +37,9 @@ function Login() {
     };
 
     let activeStyle = {
-        textDecoration: "underline",
+        cursor: "none",
         fontWeight: "bold",
+        color: "#1A3B58",
     };
 
     useEffect(() => {
@@ -52,34 +54,74 @@ function Login() {
             <div className="loginimage">
                 <img src={image} alt="groupimage"></img>
             </div>
-            <div>
-                <div>
+            <div className="logincontent">
+                <div className="links">
                     <NavLink
                         to="/login"
                         style={({ isActive }) => (isActive ? activeStyle : undefined)}
                     >
                         Log In
                     </NavLink>
-                    <NavLink to="/signup">Sign Up</NavLink>
+                    <NavLink className="navlink" to="/signup">
+                        Sign Up
+                    </NavLink>
                 </div>
-                <div>To Continue</div>
-                <div>We need your Name & Email</div>
+                <div className="loginform">
+                    <div style={{ fontSize: "1.25rem" }}>To Continue</div>
+                    <div style={{ fontSize: "0.75rem", fontWeight: "300", color: "#999999" }}>
+                        We need your Email & Password
+                    </div>
+                    <form>
+                        <div>
+                            <input
+                                className="inputfields"
+                                placeholder="Email"
+                                type="email"
+                                ref={emailref}
+                            ></input>
+                            <div style={{ position: "relative" }}>
+                                <input
+                                    className="inputfields"
+                                    placeholder="Pasword"
+                                    type={showPass ? "text" : "password"}
+                                    ref={passwordref}
+                                ></input>
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setShowPass(!showPass);
+                                    }}
+                                    className="showpass"
+                                >
+                                    {showPass ? "hide" : "show"}
+                                </button>
+                            </div>
+                        </div>
+                        <div className="errorcodes">{error}</div>
+                        <button className="inputfields loginbutton" onClick={handleSubmit}>
+                            Log In
+                        </button>
+                        <input
+                            className="input"
+                            type="checkbox"
+                            name="rememberme"
+                            checked={remember}
+                            onChange={() => {
+                                setRemember(!remember);
+                            }}
+                        ></input>
+                        <label
+                            htmlFor="rememberme "
+                            className="rememberme"
+                            onClick={() => {
+                                setRemember(!remember);
+                            }}
+                        >
+                            Remember Me
+                        </label>
+                    </form>
+                </div>
             </div>
-            <form>
-                <input placeholder="Email" type="email" ref={emailref}></input>
-                <input placeholder="Pasword" type="password" ref={passwordref}></input>
-                <input
-                    type="checkbox"
-                    name="rememberme"
-                    checked={remember}
-                    onChange={() => {
-                        setRemember(!remember);
-                    }}
-                ></input>
-                <label htmlFor="rememberme">Remember Me</label>
-                {error}
-                <button onClick={handleSubmit}>Submit</button>
-            </form>
         </div>
     );
 }

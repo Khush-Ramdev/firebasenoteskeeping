@@ -1,15 +1,19 @@
 import React, { useEffect, useState, useRef } from "react";
 import List from "./List";
 import Modal from "./Modal";
-import { collection, addDoc, onSnapshot, updateDoc, doc, orderBy, query } from "firebase/firestore";
-import db from "../firebase";
+import { collection, addDoc, onSnapshot, updateDoc, doc, query } from "firebase/firestore";
+import { db } from "../firebase";
+import { UserAuth } from "./AuthContext";
 
 function Notes() {
+    const { user } = UserAuth();
+    const [shownote, setShowNote] = useState(false);
+
     //hooks
     const [note, setNote] = useState({
         title: "",
         description: "",
-        pinned: false,
+        user: "",
         id: "",
     });
     const [notes, setNotes] = useState([]);
@@ -21,10 +25,10 @@ function Notes() {
         console.log(notes);
     }, [notes]);
     //database reference
-    const colRef = collection(db, "notes");
+    const colRef = collection(db, "progress");
 
     useEffect(() => {
-        const firstBatch = query(colRef, orderBy("pinned", "desc"), orderBy("id", "asc"));
+        const firstBatch = query(colRef);
         var unsubscribe = onSnapshot(
             firstBatch,
             (fetchednotes) => {
@@ -37,7 +41,7 @@ function Notes() {
             },
         );
 
-        if (descriptionref) {
+        if (descriptionref.current) {
             descriptionref.current.style.minHeight = "2rem";
         }
         //
@@ -48,8 +52,12 @@ function Notes() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        console.log(shownote);
+    }, [shownote]);
+
     const reset = () => {
-        setNote({ title: "", description: "", pinned: false, id: "" });
+        setNote({ title: "", description: "", user: "", id: "" });
     };
 
     const handleNoteChange = (e) => {
@@ -68,10 +76,12 @@ function Notes() {
         if (note.description !== "") {
             setNotes([...notes, { ...note, id: note.id }]);
             const added = await addDoc(colRef, note);
-            const updateDocId = doc(db, "notes", added.id);
+            const updateDocId = doc(db, "progress", added.id);
             await updateDoc(updateDocId, {
                 id: added.id,
+                user: user.email,
             });
+            setShowNote(false);
             reset();
         } else {
             document.querySelector(".error").classList.toggle("hidden");
@@ -88,26 +98,41 @@ function Notes() {
 
     return (
         <div className="notes">
-            <div className="error hidden">Description cannot be empty</div>
-            <form className="newnote">
-                <input
-                    placeholder="Title"
-                    onChange={handleNoteChange}
-                    id="title"
-                    value={note.title}
-                ></input>
-                <textarea
-                    placeholder="take a note"
-                    onChange={handleNoteChange}
-                    id="description"
-                    value={note.description}
-                    ref={descriptionref}
-                    cols="2"
-                ></textarea>
-                <button type="submit" onClick={submitNote} id="submit">
-                    Make Note
-                </button>
-            </form>
+            <div className="sectionheading">In Progress</div>
+            <button
+                className="shownewnote"
+                onClick={(e) => {
+                    e.preventDefault();
+                    setShowNote(!shownote);
+                    reset();
+                }}
+            >
+                +
+            </button>
+            {shownote && (
+                <div>
+                    <form className="newnote">
+                        <input
+                            placeholder="Title"
+                            onChange={handleNoteChange}
+                            id="title"
+                            value={note.title}
+                        ></input>
+                        <textarea
+                            placeholder="Description"
+                            onChange={handleNoteChange}
+                            id="description"
+                            value={note.description}
+                            ref={descriptionref}
+                            cols="2"
+                        ></textarea>
+                        <button type="submit" onClick={submitNote} id="submit">
+                            Add To Do
+                        </button>
+                    </form>
+                    <div className="error hidden">Description cannot be empty</div>
+                </div>
+            )}
             <List notes={notes} notepopup={notepopup}></List>
             {status.status && (
                 <Modal
@@ -117,6 +142,7 @@ function Notes() {
                     status={status}
                     db={db}
                     reset={reset}
+                    collection="progress"
                 ></Modal>
             )}
         </div>

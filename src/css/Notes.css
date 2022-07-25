@@ -1,0 +1,107 @@
+.notes {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: #f5f9f9;
+    border-radius: 1.5rem;
+    padding-top: 1.5rem;
+}
+
+.sectionheading {
+    width: 90%;
+    margin: 0.5rem auto;
+    font-size: 1.25rem;
+}
+
+.newnote {
+    box-shadow: 0 0 28px 0 rgba(72, 174, 174, 0.07);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    margin: 1rem auto;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 1rem;
+    font-family: "Poppins", sans-serif !important;
+}
+
+.shownewnote {
+    background-color: #ecf3f3;
+    border: none;
+    width: 90%;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    color: #329c89;
+    border-radius: 0.7rem;
+}
+
+#title,
+#description {
+    font-weight: bold;
+    width: 100%;
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+    border: none;
+    padding: 0.25rem;
+}
+
+#description {
+    resize: none;
+}
+
+#description:focus,
+#title:focus {
+    background-color: #f5f9f9;
+    outline: none;
+}
+
+#submit {
+    border: none;
+    font-size: 1.2rem;
+    align-self: flex-end;
+    text-align: right;
+    background: none;
+    transition: 0.2s ease-in;
+    cursor: pointer;
+    z-index: 1;
+    border-radius: 1rem;
+    padding: 0.25rem 1rem;
+}
+
+#submit:hover {
+    background: whitesmoke;
+}
+
+#submit:focus {
+    background-color: black;
+    color: white;
+}
+
+.error {
+    text-align: center;
+    width: 90%;
+    margin: 0.5rem auto;
+    padding: 0.5rem 0;
+    border-radius: 1rem;
+    font-size: 1rem;
+    color: rgb(209, 57, 57);
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 500px) {
+    .newnote {
+        width: 80%;
+    }
+
+    .error {
+        width: 70%;
+    }
+}
