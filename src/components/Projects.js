@@ -1,16 +1,21 @@
 import React from "react";
-import ToDo from "./Todo";
-import Progress from "./Progress";
-import Completed from "./Completed";
+import { DragDropContext } from "react-beautiful-dnd";
+import Collection from "./collection";
 function Projects() {
+    const handleDragEnd = (result) => {
+        console.log(result);
+    };
+
     return (
         <div className="projects">
             <div className="projectsheading">Projects</div>
-            <div className="projectGrid">
-                <ToDo />
-                <Progress />
-                <Completed />
-            </div>
+            <DragDropContext onDragEnd={handleDragEnd}>
+                <div className="projectGrid">
+                    <Collection path={"todo"} />
+                    <Collection path={"progress"} />
+                    <Collection path={"completed"} />
+                </div>
+            </DragDropContext>
         </div>
     );
 }

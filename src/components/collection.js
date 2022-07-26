@@ -4,10 +4,8 @@ import Modal from "./Modal";
 import { collection, addDoc, onSnapshot, updateDoc, doc, query } from "firebase/firestore";
 import { db } from "../firebase";
 import { UserAuth } from "./AuthContext";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 
-function Notes() {
+function Notes({ path }) {
     const { user } = UserAuth();
     const [shownote, setShowNote] = useState(false);
 
@@ -24,7 +22,7 @@ function Notes() {
     //used to see if modal is open or not
     const [status, setStatus] = useState({ status: false, index: -1 });
     //database reference
-    const colRef = collection(db, "todo");
+    const colRef = collection(db, path);
 
     useEffect(() => {
         const firstBatch = query(colRef);
@@ -45,7 +43,6 @@ function Notes() {
         return function cleanup() {
             unsubscribe();
         };
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -69,7 +66,7 @@ function Notes() {
         if (note.description !== "") {
             setNotes([...notes, { ...note, id: note.id }]);
             const added = await addDoc(colRef, note);
-            const updateDocId = doc(db, "todo", added.id);
+            const updateDocId = doc(db, path, added.id);
             await updateDoc(updateDocId, {
                 id: added.id,
                 user: user.displayName,
@@ -91,7 +88,7 @@ function Notes() {
 
     return (
         <div className="notes">
-            <div className="sectionheading">To Do</div>
+            <div className="sectionheading">{path}</div>
             <button
                 className="shownewnote"
                 onClick={(e) => {
@@ -126,10 +123,7 @@ function Notes() {
                     <div className="error hidden">Description cannot be empty</div>
                 </div>
             )}
-            <DndProvider backend={HTML5Backend}>
-                <List notes={notes} notepopup={notepopup}></List>
-            </DndProvider>
-
+            <List notes={notes} notepopup={notepopup} collection={path}></List>
             {status.status && (
                 <Modal
                     closeModal={() => setStatus({ ...status, status: false })}
@@ -138,7 +132,7 @@ function Notes() {
                     status={status}
                     db={db}
                     reset={reset}
-                    collection="todo"
+                    collection={path}
                 ></Modal>
             )}
         </div>
