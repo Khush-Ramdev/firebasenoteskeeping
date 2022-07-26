@@ -1,3 +1,14 @@
+.projects {
+    position: relative;
+    height: 100%;
+}
+
+.projectsheading {
+    font-size: 1.5rem;
+    padding: 1rem;
+    font-weight: 700;
+}
+
 .projectGrid {
     position: relative;
     display: grid;
@@ -5,4 +16,5 @@
     box-sizing: border-box;
     gap: 1rem;
     padding: 1rem;
+    height: 90%;
 }

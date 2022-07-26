@@ -1,5 +1,6 @@
 .notes {
     width: 100%;
+    height: 90%;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -27,7 +28,6 @@
     padding: 1rem;
     background-color: white;
     border-radius: 1rem;
-    font-family: "Poppins", sans-serif !important;
 }
 
 .shownewnote {
@@ -44,10 +44,11 @@
 #description {
     font-weight: bold;
     width: 100%;
-    font-size: 1.2rem;
-    margin: 0.5rem 0;
+    font-size: 1rem;
+    margin: 0.25rem 0;
     border: none;
     padding: 0.25rem;
+    font-family: "Poppins", sans-serif !important;
 }
 
 #description {
@@ -62,7 +63,7 @@
 
 #submit {
     border: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
     align-self: flex-end;
     text-align: right;
     background: none;
@@ -74,7 +75,7 @@
 }
 
 #submit:hover {
-    background: whitesmoke;
+    background: #f5f9f9;
 }
 
 #submit:focus {

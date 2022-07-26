@@ -1,0 +1,13 @@
+.header {
+    box-sizing: border-box;
+    height: 8vh;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.image {
+    margin-left: 2rem;
+    height: 80%;
+}

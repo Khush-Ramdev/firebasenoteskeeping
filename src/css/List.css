@@ -5,6 +5,17 @@
     display: grid;
     gap: 1rem;
     overflow-y: auto;
+    scrollbar-width: thin;
+    padding-right: 0.5rem;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .note {
@@ -13,7 +24,7 @@
     margin: 1rem 0;
     max-height: fit-content;
     height: -moz-max-content;
-    border-radius: 0.7rem;
+    border-radius: 0.5rem;
     background-color: white;
     word-wrap: break-word;
     line-break: strict;
@@ -27,19 +38,20 @@
 }
 
 .notetitle {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
 }
 
 .notetitlepresent {
     margin-bottom: 0.5rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid gray;
 }
 
 .notedescription {
     text-align: justify;
     white-space: pre-line;
+    font-size: 0.8rem;
+    color: #6b6b6b;
 }
 
 @media (max-width: 1000px) {

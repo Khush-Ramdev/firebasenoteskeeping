@@ -4,11 +4,20 @@
 @import url(./Login.css);
 @import url(./Signup.css);
 @import url(./projects.css);
+@import url(./Header.css);
+@import url(./Sidebar.css);
+@import url(./Container.css);
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
     font-size: 62.5%;
     font-family: "Poppins", sans-serif;
+    overflow: hidden;
 }
 h1,
 h2,
@@ -27,10 +36,10 @@ dl {
 
 img {
     border: none;
-    max-width: 100%;
+    height: 100%;
 }
 
 .App {
-    height: 100%;
+    height: 100vh;
     font-size: 1rem;
 }

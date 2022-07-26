@@ -21,9 +21,6 @@ function Notes() {
     const descriptionref = useRef(null);
     //used to see if modal is open or not
     const [status, setStatus] = useState({ status: false, index: -1 });
-    useEffect(() => {
-        console.log(notes);
-    }, [notes]);
     //database reference
     const colRef = collection(db, "completed");
 
@@ -32,8 +29,6 @@ function Notes() {
         var unsubscribe = onSnapshot(
             firstBatch,
             (fetchednotes) => {
-                console.log("fetch");
-                console.log(fetchednotes.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
                 setNotes(fetchednotes.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
             },
             (error) => {
@@ -51,10 +46,6 @@ function Notes() {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    useEffect(() => {
-        console.log(shownote);
-    }, [shownote]);
 
     const reset = () => {
         setNote({ title: "", description: "", user: "", id: "" });
@@ -79,7 +70,7 @@ function Notes() {
             const updateDocId = doc(db, "completed", added.id);
             await updateDoc(updateDocId, {
                 id: added.id,
-                user: user.email,
+                user: user.displayName,
             });
             setShowNote(false);
             reset();
@@ -98,7 +89,7 @@ function Notes() {
 
     return (
         <div className="notes">
-            <div className="sectionheading">To Do</div>
+            <div className="sectionheading">Completed</div>
             <button
                 className="shownewnote"
                 onClick={(e) => {
@@ -110,7 +101,7 @@ function Notes() {
                 +
             </button>
             {shownote && (
-                <div>
+                <div className="newnotewrapper">
                     <form className="newnote">
                         <input
                             placeholder="Title"
@@ -127,7 +118,7 @@ function Notes() {
                             cols="2"
                         ></textarea>
                         <button type="submit" onClick={submitNote} id="submit">
-                            Add To Do
+                            Add Completed
                         </button>
                     </form>
                     <div className="error hidden">Description cannot be empty</div>

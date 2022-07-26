@@ -28,8 +28,13 @@ function Signup() {
             setError(`Password should atleast be 6 characters`);
         } else {
             try {
-                await createUser(emailref.current.value, passwordref.current.value, remember);
-                navigate("/");
+                await createUser(
+                    emailref.current.value,
+                    passwordref.current.value,
+                    remember,
+                    nameref.current.value,
+                );
+                navigate("/login");
             } catch (e) {
                 setError(e.message);
                 console.log(e.message);
@@ -47,13 +52,6 @@ function Signup() {
         fontWeight: "bold",
         color: "#1A3B58",
     };
-
-    useEffect(() => {
-        if (user) {
-            console.log("here");
-            navigate("/");
-        }
-    }, [user, navigate]);
 
     return (
         <div className="signupcomponent">

@@ -5,15 +5,13 @@ import { UserAuth } from "./AuthContext";
 
 function Login() {
     const { user, logIn } = UserAuth();
+
     const passwordref = useRef();
     const emailref = useRef();
     const [error, setError] = useState("");
     const [remember, setRemember] = useState(false);
     const [showPass, setShowPass] = useState(false);
     const navigate = useNavigate();
-    useEffect(() => {
-        console.log(remember);
-    }, [remember]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,13 +24,13 @@ function Login() {
         } else if (passwordref.current.value.length < 6) {
             setError(`Password should atleast be 6 characters`);
         } else {
-            try {
-                await logIn(emailref.current.value, passwordref.current.value, remember);
-                navigate("/");
-            } catch (e) {
-                setError(e.message);
-                console.log(e.message);
-            }
+            await logIn(emailref.current.value, passwordref.current.value, remember)
+                .then(() => {
+                    navigate("/projects");
+                })
+                .catch((e) => {
+                    setError(e.message);
+                });
         }
     };
 
@@ -44,8 +42,7 @@ function Login() {
 
     useEffect(() => {
         if (user) {
-            console.log("here");
-            navigate("/");
+            navigate("/projects");
         }
     }, [user, navigate]);
 

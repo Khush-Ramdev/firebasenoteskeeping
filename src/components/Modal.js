@@ -38,9 +38,9 @@ const Modal = ({ closeModal, notes, status, setNotes, db, reset, collection }) =
         e.preventDefault();
         const { value, id } = e.target;
         if (id === "title1") {
-            setNote({ ...note, title: value, user: user.email });
+            setNote({ ...note, title: value, user: user.displayName });
         } else if (id === "description1") {
-            setNote({ ...note, description: value, user: user.email });
+            setNote({ ...note, description: value, user: user.displayName });
             e.target.style.height = "inherit";
             e.target.style.height = `${e.target.scrollHeight}px`;
         }
@@ -74,9 +74,6 @@ const Modal = ({ closeModal, notes, status, setNotes, db, reset, collection }) =
         closeModal();
         setUndo(false);
         await deleteDoc(userDoc, note);
-        // let ind = parseInt(status.index);
-        // const newnote = notes.filter((n, index) => index !== ind);
-        // setNotes(newnote);
     };
 
     useEffect(() => {
@@ -111,14 +108,21 @@ const Modal = ({ closeModal, notes, status, setNotes, db, reset, collection }) =
     return (
         <div className="overlay">
             <form className="content">
-                <div>{note.user}</div>
                 {!!note.description.length && closeicon()}
                 <input onChange={handleNoteChange} value={note.title} id="title1"></input>
-                <textarea
-                    onChange={handleNoteChange}
-                    value={note.description}
-                    id="description1"
-                ></textarea>
+                <div className="created">
+                    <div className="width">Edited by:</div>
+                    <div>{note.user}</div>
+                </div>
+
+                <div className="descriptiondiv">
+                    <div className="width">Description:</div>
+                    <textarea
+                        onChange={handleNoteChange}
+                        value={note.description}
+                        id="description1"
+                    ></textarea>
+                </div>
                 <div className="modalbuttons">
                     <button type="submit" onClick={updateNote} className="update">
                         Update

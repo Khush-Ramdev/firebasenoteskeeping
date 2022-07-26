@@ -7,6 +7,7 @@ import {
     signOut,
     onAuthStateChanged,
     browserSessionPersistence,
+    updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -16,29 +17,20 @@ export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState({});
     const [pending, setPending] = useState(true);
 
-    const createUser = (email, password, persist) => {
-        if (persist) {
-            setPersistence(auth, browserLocalPersistence).then(() => {
-                return createUserWithEmailAndPassword(auth, email, password);
+    const createUser = (email, password, persist, name) => {
+        const sessionPersistor = persist ? browserLocalPersistence : browserSessionPersistence;
+        return setPersistence(auth, sessionPersistor).then(() => {
+            return createUserWithEmailAndPassword(auth, email, password).then((res) => {
+                return updateProfile(res.user, { displayName: name });
             });
-        } else {
-            setPersistence(auth, browserSessionPersistence).then(() => {
-                return createUserWithEmailAndPassword(auth, email, password);
-            });
-        }
+        });
     };
 
     const logIn = (email, password, persist) => {
-        console.log(persist);
-        if (persist) {
-            setPersistence(auth, browserLocalPersistence).then(() => {
-                return signInWithEmailAndPassword(auth, email, password);
-            });
-        } else {
-            setPersistence(auth, browserSessionPersistence).then(() => {
-                return signInWithEmailAndPassword(auth, email, password);
-            });
-        }
+        const sessionPersistor = persist ? browserLocalPersistence : browserSessionPersistence;
+        return setPersistence(auth, sessionPersistor).then(() => {
+            return signInWithEmailAndPassword(auth, email, password);
+        });
     };
 
     const logOut = () => {
@@ -47,6 +39,9 @@ export const AuthContextProvider = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currenUser) => {
+            if (currenUser) {
+                currenUser.reload();
+            }
             setUser(currenUser);
             setPending(false);
         });
