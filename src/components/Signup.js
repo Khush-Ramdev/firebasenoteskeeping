@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import image from "../assests/group.png";
 import { UserAuth } from "../components/AuthContext";
@@ -11,7 +11,7 @@ function Signup() {
     const [remember, setRemember] = useState(false);
     const [showPass, setShowPass] = useState(false);
 
-    const { user, createUser } = UserAuth();
+    const { createUser } = UserAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
