@@ -5,7 +5,7 @@ import { collection, addDoc, onSnapshot, updateDoc, doc, query } from "firebase/
 import { db } from "../firebase";
 import { UserAuth } from "./AuthContext";
 
-function Notes({ path }) {
+function Notes({ path, result }) {
     const { user } = UserAuth();
     const [shownote, setShowNote] = useState(false);
 
@@ -16,6 +16,7 @@ function Notes({ path }) {
         user: "",
         id: "",
     });
+
     const [notes, setNotes] = useState([]);
     //used for setting note description height as dynamic
     const descriptionref = useRef(null);
@@ -25,6 +26,7 @@ function Notes({ path }) {
     const colRef = collection(db, path);
 
     useEffect(() => {
+        console.log("here");
         const firstBatch = query(colRef);
         var unsubscribe = onSnapshot(
             firstBatch,

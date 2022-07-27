@@ -5,10 +5,14 @@ function List({ notes, notepopup, collection }) {
     return (
         <Droppable droppableId={collection}>
             {(provided) => (
-                <div className="list" ref={provided.innerRef} {...provided.droppableProps}>
+                <div
+                    className="list"
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    id={collection}
+                >
                     {provided.placeholder}
                     {notes.map((note, index) => {
-                        console.log(index);
                         return (
                             <Draggable draggableId={note.id} index={index} key={index}>
                                 {(provided) => (

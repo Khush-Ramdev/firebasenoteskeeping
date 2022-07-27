@@ -52,3 +52,7 @@
     font-size: 0.8rem;
     color: #6b6b6b;
 }
+
+.hide {
+    height: 0 !important;
+}
