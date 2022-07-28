@@ -1,56 +1,58 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import Collection from "./collection";
-import { collection, addDoc, deleteDoc, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 function Projects() {
-    const [note, setNote] = useState();
-    const [destination, setDestination] = useState();
-    const [source, setSource] = useState();
-    const [draggableId, setDraggableId] = useState();
-
-    const handleDragEnd = async (result) => {
-        console.log(result);
+    const [result, setResult] = useState("");
+    const [newNote, setNewNote] = useState("");
+    const handleDragEnd = (result) => {
         const { destination, source, draggableId } = result;
         if (destination) {
+            console.log(result);
             if (source.droppableId !== destination.droppableId) {
-                setDestination(destination);
-                setSource(source);
-                setDraggableId(draggableId);
-                console.log(source.droppableId, draggableId, destination.droppableId);
-                const docRef = doc(db, `${source.droppableId}`, `${draggableId}`);
-                await getDoc(docRef)
+                console.log(source.droppableId, draggableId);
+                const docRef = doc(db, source.droppableId, draggableId);
+                getDoc(docRef)
                     .then((docSnap) => {
-                        console.log("Document data:", docSnap.data());
-                        setNote(docSnap.data());
+                        console.log(docSnap.data());
+                        setNewNote(docSnap.data());
                     })
                     .catch((e) => {
                         console.log(e.message);
                     });
+                setResult(result);
             }
         }
     };
-
-    useEffect(() => {
-        if (note) {
-            const colRef = collection(db, destination.droppableId);
-            const docRef = doc(db, source.droppableId, draggableId);
-            deleteDoc(docRef, note).then(() => {
-                addDoc(colRef, note);
-            });
-            setNote("");
-        }
-    }, [note, destination, source, draggableId]);
 
     return (
         <div className="projects">
             <div className="projectsheading">Projects</div>
             <DragDropContext onDragEnd={handleDragEnd}>
                 <div className="projectGrid">
-                    <Collection path={"todo"} />
-                    <Collection path={"progress"} />
-                    <Collection path={"completed"} />
+                    <Collection
+                        path={"todo"}
+                        result={result}
+                        newNote={newNote}
+                        setNewNote={setNewNote}
+                        setResult={setResult}
+                    />
+                    <Collection
+                        path={"progress"}
+                        result={result}
+                        newNote={newNote}
+                        setNewNote={setNewNote}
+                        setResult={setResult}
+                    />
+                    <Collection
+                        path={"completed"}
+                        result={result}
+                        newNote={newNote}
+                        setNewNote={setNewNote}
+                        setResult={setResult}
+                    />
                 </div>
             </DragDropContext>
         </div>

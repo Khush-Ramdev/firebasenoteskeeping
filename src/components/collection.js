@@ -1,35 +1,24 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import List from "./List";
 import Modal from "./Modal";
-import { collection, addDoc, onSnapshot, updateDoc, doc, query } from "firebase/firestore";
+import { collection, addDoc, onSnapshot, doc, query, deleteDoc, orderBy } from "firebase/firestore";
 import { db } from "../firebase";
-import { UserAuth } from "./AuthContext";
+import Newnote from "./newnote";
 
-function Notes({ path, result }) {
-    const { user } = UserAuth();
+function Notes({ path, result, newNote, setResult, setNewNote }) {
+    //hide or show nee note section
     const [shownote, setShowNote] = useState(false);
-
-    //hooks
-    const [note, setNote] = useState({
-        title: "",
-        description: "",
-        user: "",
-        id: "",
-    });
-
     const [notes, setNotes] = useState([]);
-    //used for setting note description height as dynamic
-    const descriptionref = useRef(null);
     //used to see if modal is open or not
     const [status, setStatus] = useState({ status: false, index: -1 });
     //database reference
     const colRef = collection(db, path);
 
     useEffect(() => {
-        console.log("here");
-        const firstBatch = query(colRef);
+        const firstBatch = query(colRef, orderBy("timeStamp"));
         var unsubscribe = onSnapshot(
             firstBatch,
+            // { includeMetadataChanges: true },
             (fetchednotes) => {
                 setNotes(fetchednotes.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
             },
@@ -37,51 +26,41 @@ function Notes({ path, result }) {
                 console.log(error);
             },
         );
-
-        if (descriptionref.current) {
-            descriptionref.current.style.minHeight = "2rem";
-        }
-        //
         return function cleanup() {
             unsubscribe();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const reset = () => {
-        setNote({ title: "", description: "", user: "", id: "" });
-    };
-
-    const handleNoteChange = (e) => {
-        const { value, id } = e.target;
-        if (id === "title") {
-            setNote({ ...note, title: value });
-        } else if (id === "description") {
-            setNote({ ...note, description: value });
-            e.target.style.height = "inherit";
-            e.target.style.height = `${e.target.scrollHeight}px`;
+    useEffect(() => {
+        if (result) {
+            const { destination, source, draggableId } = result;
+            if (newNote) {
+                if (newNote.title.length > 1) {
+                    console.log("here");
+                    console.log(source, destination, newNote);
+                    if (path === destination.droppableId) {
+                        setNotes([...notes, newNote]);
+                        setResult("");
+                        setTimeout(() => {
+                            addDoc(colRef, newNote).then(() => {
+                                setNewNote("");
+                            });
+                        }, 1000);
+                    }
+                    if (path === source.droppableId) {
+                        console.log("deleting");
+                        setNotes(notes.filter((note) => note.id !== draggableId));
+                        setResult("");
+                        const userDoc = doc(db, path, draggableId);
+                        setTimeout(() => {
+                            deleteDoc(userDoc, newNote);
+                        }, 1000);
+                    }
+                }
+            }
         }
-    };
-
-    const submitNote = async (e) => {
-        e.preventDefault();
-        if (note.description !== "") {
-            setNotes([...notes, { ...note, id: note.id }]);
-            const added = await addDoc(colRef, note);
-            const updateDocId = doc(db, path, added.id);
-            await updateDoc(updateDocId, {
-                id: added.id,
-                user: user.displayName,
-            });
-            setShowNote(false);
-            reset();
-        } else {
-            document.querySelector(".error").classList.toggle("hidden");
-            setTimeout(() => {
-                document.querySelector(".error").classList.toggle("hidden");
-            }, 1000);
-        }
-    };
+    }, [result, path, newNote, colRef, setResult, setNewNote, notes]);
 
     const notepopup = (e) => {
         const ind = e.target.getAttribute("name");
@@ -96,34 +75,12 @@ function Notes({ path, result }) {
                 onClick={(e) => {
                     e.preventDefault();
                     setShowNote(!shownote);
-                    reset();
                 }}
             >
                 +
             </button>
             {shownote && (
-                <div className="newnotewrapper">
-                    <form className="newnote">
-                        <input
-                            placeholder="Title"
-                            onChange={handleNoteChange}
-                            id="title"
-                            value={note.title}
-                        ></input>
-                        <textarea
-                            placeholder="Description"
-                            onChange={handleNoteChange}
-                            id="description"
-                            value={note.description}
-                            ref={descriptionref}
-                            cols="2"
-                        ></textarea>
-                        <button type="submit" onClick={submitNote} id="submit">
-                            Add To Do
-                        </button>
-                    </form>
-                    <div className="error hidden">Description cannot be empty</div>
-                </div>
+                <Newnote notes={notes} setNotes={setNotes} path={path} setShowNote={setShowNote} />
             )}
             <List notes={notes} notepopup={notepopup} collection={path}></List>
             {status.status && (
@@ -133,7 +90,6 @@ function Notes({ path, result }) {
                     setNotes={setNotes}
                     status={status}
                     db={db}
-                    reset={reset}
                     collection={path}
                 ></Modal>
             )}

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { UserAuth } from "./AuthContext";
 
-const Modal = ({ closeModal, notes, status, setNotes, db, reset, collection }) => {
+const Modal = ({ closeModal, notes, status, setNotes, db, collection }) => {
     const { user } = UserAuth();
     const [note, setNote] = useState({
         title: "",
@@ -33,6 +33,10 @@ const Modal = ({ closeModal, notes, status, setNotes, db, reset, collection }) =
         document.addEventListener("keydown", escapeModal);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const reset = () => {
+        setNote({ title: "", description: "", user: "", id: "" });
+    };
 
     const handleNoteChange = (e) => {
         e.preventDefault();
