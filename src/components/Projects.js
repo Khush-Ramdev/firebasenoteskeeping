@@ -9,7 +9,7 @@ function Projects() {
     const colRef = collection(db, "todo");
 
     useEffect(() => {
-        console.log(notes);
+        // console.log(notes);
     }, [notes]);
 
     useEffect(() => {
@@ -33,9 +33,9 @@ function Projects() {
     const handleDragEnd = (result) => {
         const { destination, source, draggableId } = result;
         if (destination) {
-            console.log(result);
+            // console.log(result);
             if (source.droppableId !== destination.droppableId) {
-                console.log(source.droppableId, draggableId);
+                // console.log(source.droppableId, draggableId);
                 setNotes([
                     ...notes.filter((note) => {
                         if (note.id === draggableId) {
