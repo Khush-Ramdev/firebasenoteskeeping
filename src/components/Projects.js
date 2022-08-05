@@ -1,28 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import Collection from "./collection";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { db } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
 
 function Projects() {
-    const [result, setResult] = useState("");
-    const [newNote, setNewNote] = useState("");
+    const [notes, setNotes] = useState([]);
+    const colRef = collection(db, "todo");
+
+    useEffect(() => {
+        console.log(notes);
+    }, [notes]);
+
+    useEffect(() => {
+        const firstBatch = query(colRef, orderBy("timeStamp"));
+        var unsubscribe = onSnapshot(
+            firstBatch,
+            // { includeMetadataChanges: true },
+            (fetchednotes) => {
+                setNotes(fetchednotes.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+            },
+            (error) => {
+                console.log(error);
+            },
+        );
+        return function cleanup() {
+            unsubscribe();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const handleDragEnd = (result) => {
         const { destination, source, draggableId } = result;
         if (destination) {
             console.log(result);
             if (source.droppableId !== destination.droppableId) {
                 console.log(source.droppableId, draggableId);
-                const docRef = doc(db, source.droppableId, draggableId);
-                getDoc(docRef)
-                    .then((docSnap) => {
-                        console.log(docSnap.data());
-                        setNewNote(docSnap.data());
-                    })
-                    .catch((e) => {
-                        console.log(e.message);
-                    });
-                setResult(result);
+                setNotes([
+                    ...notes.filter((note) => {
+                        if (note.id === draggableId) {
+                            note.column = destination.droppableId;
+                        }
+                        return note;
+                    }),
+                ]);
             }
         }
     };
@@ -32,27 +53,9 @@ function Projects() {
             <div className="projectsheading">Projects</div>
             <DragDropContext onDragEnd={handleDragEnd}>
                 <div className="projectGrid">
-                    <Collection
-                        path={"todo"}
-                        result={result}
-                        newNote={newNote}
-                        setNewNote={setNewNote}
-                        setResult={setResult}
-                    />
-                    <Collection
-                        path={"progress"}
-                        result={result}
-                        newNote={newNote}
-                        setNewNote={setNewNote}
-                        setResult={setResult}
-                    />
-                    <Collection
-                        path={"completed"}
-                        result={result}
-                        newNote={newNote}
-                        setNewNote={setNewNote}
-                        setResult={setResult}
-                    />
+                    <Collection path={"todo"} results={notes} db={db} />
+                    <Collection path={"progress"} results={notes} db={db} />
+                    <Collection path={"completed"} results={notes} db={db} />
                 </div>
             </DragDropContext>
         </div>
