@@ -51,7 +51,7 @@ const Modal = ({ closeModal, notes, status, setNotes, db, collection }) => {
     };
 
     const update = async () => {
-        const userDoc = doc(db, collection, note.id);
+        const userDoc = doc(db, "todo", note.id);
         setLoading(true);
         await updateDoc(userDoc, note);
     };
@@ -73,7 +73,7 @@ const Modal = ({ closeModal, notes, status, setNotes, db, collection }) => {
     };
 
     const deleteNote = async (e) => {
-        const userDoc = doc(db, collection, note.id);
+        const userDoc = doc(db, "todo", note.id);
         reset();
         closeModal();
         setUndo(false);

@@ -13,37 +13,40 @@ function List({ notes, notepopup, collection }) {
                     id={collection}
                 >
                     {notes.map((note, index) => {
-                        return (
-                            <Draggable
-                                draggableId={note.id ? note.id : "tempid"}
-                                index={index}
-                                key={index}
-                            >
-                                {(provided) => (
-                                    <div
-                                        onClick={notepopup}
-                                        key={index}
-                                        className="note"
-                                        name={index}
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                    >
-                                        <h2
+                        if (note.column === collection) {
+                            return (
+                                <Draggable
+                                    draggableId={note.id ? note.id : "tempid"}
+                                    index={index}
+                                    key={index}
+                                >
+                                    {(provided) => (
+                                        <div
+                                            onClick={notepopup}
+                                            key={index}
+                                            className="note"
                                             name={index}
-                                            className={`notetitle ${
-                                                note.title && "notetitlepresent "
-                                            }`}
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
                                         >
-                                            {note.title}
-                                        </h2>
-                                        <div name={index} className="notedescription">
-                                            {note.description}
+                                            <h2
+                                                name={index}
+                                                className={`notetitle ${
+                                                    note.title && "notetitlepresent "
+                                                }`}
+                                            >
+                                                {note.title}
+                                            </h2>
+                                            <div name={index} className="notedescription">
+                                                {note.description}
+                                            </div>
                                         </div>
-                                    </div>
-                                )}
-                            </Draggable>
-                        );
+                                    )}
+                                </Draggable>
+                            );
+                        }
+                        return "";
                     })}
                     {provided.placeholder}
                 </div>
