@@ -2,7 +2,9 @@ import React from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 function List({ notes, notepopup, collection }) {
-    // console.log(notes, collection);
+    if (typeof notes === "undefined") {
+        return "";
+    }
     return (
         <Droppable droppableId={collection}>
             {(provided) => (
