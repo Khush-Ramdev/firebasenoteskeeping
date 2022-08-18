@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import image from "../assests/group.png";
+// import image from "../assests/group.png";
 import { UserAuth } from "../components/AuthContext";
 
 function Signup() {
@@ -55,9 +55,7 @@ function Signup() {
 
     return (
         <div className="signupcomponent">
-            <div className="signupimage">
-                <img src={image} alt="groupimage" />
-            </div>
+            <div className="signupimage">{/* <img src={image} alt="groupimage" /> */}</div>
             <div className="signupcontent">
                 <div className="links">
                     <NavLink to="/login" className="navlink">

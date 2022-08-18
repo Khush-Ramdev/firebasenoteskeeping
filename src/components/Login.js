@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import image from "../assests/group.png";
+// import image from "../assests/group.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UserAuth } from "./AuthContext";
 
@@ -48,9 +48,7 @@ function Login() {
 
     return (
         <div className="logincomponent">
-            <div className="loginimage">
-                <img src={image} alt="groupimage"></img>
-            </div>
+            <div className="loginimage">{/* <img src={image} alt="groupimage"></img> */}</div>
             <div className="logincontent">
                 <div className="links">
                     <NavLink

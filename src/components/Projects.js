@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import Collection from "./collection";
-import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy, updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 
 function Projects() {
     const [notes, setNotes] = useState([]);
+    const [id, setId] = useState();
     const colRef = collection(db, "todo");
 
     useEffect(() => {
@@ -39,11 +40,18 @@ function Projects() {
                 setNotes([
                     ...notes.filter((note) => {
                         if (note.id === draggableId) {
+                            setId(note.id);
                             note.column = destination.droppableId;
                         }
                         return note;
                     }),
                 ]);
+                console.log(id);
+                const updateDocId = doc(db, "todo", id);
+                console.log(updateDocId);
+                updateDoc(updateDocId, {
+                    column: destination.droppableId,
+                });
             }
         }
     };
