@@ -7,11 +7,23 @@ import { db } from "../firebase";
 function Projects() {
     const [notes, setNotes] = useState([]);
     const [id, setId] = useState();
+    const [destinationid, setDestinationId] = useState();
     const colRef = collection(db, "todo");
 
     useEffect(() => {
         // console.log(notes);
     }, [notes]);
+
+    useEffect(() => {
+        console.log(id);
+        if (id) {
+            const updateDocId = doc(db, "todo", id);
+            console.log(updateDocId);
+            updateDoc(updateDocId, {
+                column: destinationid,
+            });
+        }
+    }, [id, destinationid]);
 
     useEffect(() => {
         const firstBatch = query(colRef, orderBy("timeStamp"));
@@ -41,17 +53,18 @@ function Projects() {
                     ...notes.filter((note) => {
                         if (note.id === draggableId) {
                             setId(note.id);
+                            setDestinationId(destination.droppableId);
                             note.column = destination.droppableId;
                         }
                         return note;
                     }),
-                ]);
-                console.log(id);
-                const updateDocId = doc(db, "todo", id);
-                console.log(updateDocId);
-                updateDoc(updateDocId, {
-                    column: destination.droppableId,
-                });
+                ])
+                // console.log(id);
+                // const updateDocId = doc(db, "todo", id);
+                // console.log(updateDocId);
+                // updateDoc(updateDocId, {
+                //     column: destination.droppableId,
+                // });
             }
         }
     };
