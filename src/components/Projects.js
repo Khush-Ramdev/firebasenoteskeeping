@@ -10,22 +10,28 @@ function Projects() {
     const [notes, setNotes] = useState([]);
     const [id, setId] = useState();
     const [destinationid, setDestinationId] = useState();
+
     // const colRef = collection(db, "todo");
     const colRef = collection(db, `todo/${user.uid}/notes`);
+
 
     useEffect(() => {
         // console.log(notes);
     }, [notes]);
 
     useEffect(() => {
+
         // console.log(id);
         if (id) {
+            //const updateDocId = doc(db, "todo", id);
             const updateDocId = doc(colRef, id);
+
             console.log(updateDocId);
             updateDoc(updateDocId, {
                 column: destinationid,
             });
         }
+
     }, [id, destinationid, colRef]);
 
     useEffect(() => {
