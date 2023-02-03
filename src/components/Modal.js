@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
-import { updateDoc, doc, deleteDoc } from "firebase/firestore";
+import { collection, updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { UserAuth } from "./AuthContext";
 
-const Modal = ({ closeModal, notes, status, setNotes, db, collection }) => {
+const Modal = ({ closeModal, notes, status, setNotes, db, collection2 }) => {
     const { user } = UserAuth();
     const [note, setNote] = useState({
         title: "",
@@ -14,6 +14,7 @@ const Modal = ({ closeModal, notes, status, setNotes, db, collection }) => {
     const [Loading, setLoading] = useState(true);
     const [undo, setUndo] = useState(false);
     const undoRef = useRef(undo);
+    const colRef = collection(db, `todo/${user.uid}/notes`);
 
     useEffect(() => {
         if (!Loading) {
@@ -51,7 +52,7 @@ const Modal = ({ closeModal, notes, status, setNotes, db, collection }) => {
     };
 
     const update = async () => {
-        const userDoc = doc(db, "todo", note.id);
+        const userDoc = doc(colRef, note.id);
         setLoading(true);
         await updateDoc(userDoc, note);
     };

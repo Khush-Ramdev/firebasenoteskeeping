@@ -8,7 +8,10 @@ function Newnote({ notes, setNotes, path, setShowNote }) {
 
     //used for setting note description height as dynamic
     const descriptionref = useRef(null);
-    const colRef = collection(db, "todo");
+    // const colRef = collection(db, "todo");
+
+    const colRef = collection(db, `todo/${user.uid}/notes`);
+    // console.log(colRef)
 
     useEffect(() => {
         if (descriptionref.current) {
@@ -19,7 +22,7 @@ function Newnote({ notes, setNotes, path, setShowNote }) {
     const [note, setNote] = useState({
         title: "",
         description: "",
-        user: "",
+        user: '',
         id: "",
         column: path,
     });
@@ -43,8 +46,11 @@ function Newnote({ notes, setNotes, path, setShowNote }) {
         e.preventDefault();
         if (note.description !== "") {
             setNotes([...notes, { ...note, id: note.id }]);
+            // const added = await addDoc(colRef, note);
+            // const updateDocId = doc(db, "todo", added.id);
             const added = await addDoc(colRef, note);
-            const updateDocId = doc(db, "todo", added.id);
+            // console.log("added:", added)
+            const updateDocId = doc(colRef, added.id);
             await updateDoc(updateDocId, {
                 id: added.id,
                 user: user.displayName,
