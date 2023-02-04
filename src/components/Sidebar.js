@@ -29,7 +29,8 @@ function Sidebar() {
                     className={({ isActive }) => "link" + (isActive ? " selected " : "")}
                 >
                     <div className="iconwrap">
-                        <span className="material-symbols-outlined">home</span>Overview
+                        <span className="material-symbols-outlined">home</span>
+                        <span className="hideText">Overview</span>
                     </div>
                 </NavLink>
                 <NavLink
@@ -38,7 +39,8 @@ function Sidebar() {
                     className={({ isActive }) => "link" + (isActive ? " selected " : "")}
                 >
                     <div className="iconwrap">
-                        <span className="material-symbols-outlined">bar_chart</span> Stats
+                        <span className="material-symbols-outlined">bar_chart</span>
+                        <span className="hideText">Stats</span>
                     </div>
                 </NavLink>
                 <NavLink
@@ -48,7 +50,8 @@ function Sidebar() {
                 >
                     {" "}
                     <div className="iconwrap">
-                        <span className="material-symbols-outlined">folder</span>Projects
+                        <span className="material-symbols-outlined">folder</span>
+                        <span className="hideText">Projects</span>
                     </div>
                 </NavLink>
                 <NavLink
@@ -58,7 +61,8 @@ function Sidebar() {
                 >
                     {" "}
                     <div className="iconwrap">
-                        <span className="material-symbols-outlined">chat</span>Chats
+                        <span className="material-symbols-outlined">chat</span>
+                        <span className="hideText">Chats</span>
                     </div>
                 </NavLink>
                 <NavLink
@@ -68,13 +72,15 @@ function Sidebar() {
                 >
                     {" "}
                     <div className="iconwrap">
-                        <span className="material-symbols-outlined">event_note</span> Calendar
+                        <span className="material-symbols-outlined">event_note</span>
+                        <span className="hideText">Calendar</span>
                     </div>
                 </NavLink>
             </div>
             <div onClick={handleLogout} className="logout">
                 <div className="iconwrap">
-                    <span className="material-symbols-outlined">logout</span> Log Out
+                    <span className="material-symbols-outlined">logout</span>
+                    <span className="hideText">Log Out</span>
                 </div>
             </div>
         </div>

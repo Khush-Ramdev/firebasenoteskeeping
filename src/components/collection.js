@@ -32,7 +32,6 @@ function Notes({ path, results, db }) {
     };
 
     useEffect(() => {
-        // console.log(text);
         if (text) {
             setFilteredNotes(notes.filter((note) => note.title.toLowerCase().includes(text)));
         } else {

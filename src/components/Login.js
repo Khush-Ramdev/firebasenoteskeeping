@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-// import image from "../assests/group.png";
+import image from "../assests/group.jpg";
 import { NavLink, useNavigate } from "react-router-dom";
 import { UserAuth } from "./AuthContext";
 
@@ -48,7 +48,7 @@ function Login() {
 
     return (
         <div className="logincomponent">
-            <div className="loginimage">{/* <img src={image} alt="groupimage"></img> */}</div>
+            <div className="loginimage"><img src={image} alt="groupimage"></img></div>
             <div className="logincontent">
                 <div className="links">
                     <NavLink
@@ -88,7 +88,7 @@ function Login() {
                                     }}
                                     className="showpass"
                                 >
-                                    {showPass ? "hide" : "show"}
+                                    {showPass ? <i class="fas fa-eye-slash"></i> : <i class="fas fa-eye"></i>}
                                 </button>
                             </div>
                         </div>
@@ -96,24 +96,26 @@ function Login() {
                         <button className="inputfields loginbutton" onClick={handleSubmit}>
                             Log In
                         </button>
-                        <input
-                            className="input"
-                            type="checkbox"
-                            name="rememberme"
-                            checked={remember}
-                            onChange={() => {
-                                setRemember(!remember);
-                            }}
-                        ></input>
-                        <label
-                            htmlFor="rememberme "
-                            className="rememberme"
-                            onClick={() => {
-                                setRemember(!remember);
-                            }}
-                        >
-                            Remember Me
-                        </label>
+                        <div className="rememberWrapper">
+                            <input
+                                className="input"
+                                type="checkbox"
+                                name="rememberme"
+                                checked={remember}
+                                onChange={() => {
+                                    setRemember(!remember);
+                                }}
+                            ></input>
+                            <label
+                                htmlFor="rememberme "
+                                className="rememberme"
+                                onClick={() => {
+                                    setRemember(!remember);
+                                }}
+                            >
+                                Remember Me
+                            </label>
+                        </div>
                     </form>
                 </div>
             </div>

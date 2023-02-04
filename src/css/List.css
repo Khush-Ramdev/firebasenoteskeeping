@@ -1,58 +1,58 @@
-.list {
-    box-sizing: border-box;
-    width: 90%;
-    height: 100%;
-    margin: 0 auto;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    padding-right: 0.5rem;
-}
-
-::-webkit-scrollbar {
-    width: 12px;
+/* ::-webkit-scrollbar {
+	width: 12px;
+	position: absolute; 
+	left: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    margin-top: 10px;
-    margin-bottom: 10px;
+	margin-top: 1rem;
+	margin-bottom: 10px;
+} */
+
+.list {
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	scrollbar-width: thin;
 }
 
 .note {
-    box-sizing: border-box;
-    padding: 1rem;
-    margin: 1rem 0;
-    max-height: fit-content;
-    height: -moz-max-content;
-    border-radius: 0.5rem;
-    background-color: white;
-    word-wrap: break-word;
-    line-break: strict;
-    box-shadow: 0 0 28px 0 rgba(72, 174, 174, 0.07);
+	box-sizing: border-box;
+	padding: 1rem;
+	margin: 1rem 0;
+	max-height: fit-content;
+	height: -moz-max-content;
+	border-radius: 0.5rem;
+	background-color: white;
+	word-wrap: break-word;
+	line-break: strict;
+	box-shadow: 0 0 28px 0 rgba(72, 174, 174, 0.07);
 }
 
 .note:hover,
 .note:active {
-    background-color: #f5f9f9;
-    cursor: pointer;
+	background-color: #f5f9f9;
+	cursor: pointer;
 }
 
 .notetitle {
-    font-size: 1.25rem;
-    font-weight: bold;
+	font-size: 1.25rem;
+	font-weight: bold;
 }
 
 .notetitlepresent {
-    margin-bottom: 0.5rem;
-    padding-bottom: 0.5rem;
+	margin-bottom: 0.5rem;
+	padding-bottom: 0.5rem;
 }
 
 .notedescription {
-    text-align: justify;
-    white-space: pre-line;
-    font-size: 0.8rem;
-    color: #6b6b6b;
+	text-align: justify;
+	white-space: pre-line;
+	font-size: 0.8rem;
+	color: #6b6b6b;
 }
 
 .hide {
-    height: 0 !important;
+	height: 0 !important;
 }
