@@ -1,53 +1,79 @@
 .sidebar {
-    position: relative;
-    height: 100%;
-    width: 20%;
-    border-right: 1.5px solid #f0f0f0;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
+	position: relative;
+	height: 100%;
+	width: 20%;
+	border-right: 1.5px solid #f0f0f0;
+	padding: 2rem;
+	display: flex;
+	flex-direction: column;
 }
 
 .sidebarheading {
-    font-size: 1.5rem;
-    font-weight: 500;
-    letter-spacing: 3px;
-    margin-bottom: 2rem;
+	font-size: 1.5rem;
+	font-weight: 500;
+	letter-spacing: 3px;
+	margin-bottom: 2rem;
 }
 
 .linkwrapper {
-    display: flex;
-    flex-direction: column;
-    margin: 3rem 0;
+	display: flex;
+	flex-direction: column;
+	margin: 3rem 0;
 }
 
 .selected {
-    color: black !important;
-    font-weight: 500;
+	color: black !important;
+	font-weight: 500;
 }
 
 .link {
-    color: #9a9a9a;
-    text-decoration: none;
-    font-size: 1rem;
-    margin: 0.75rem 0;
+	color: #9a9a9a;
+	text-decoration: none;
+	font-size: 1rem;
+	margin: 0.75rem 0;
 }
 
 .link:hover {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .material-symbols-outlined {
-    margin-right: 1rem;
+	margin-right: 1rem;
 }
 
 .iconwrap {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .logout {
-    position: absolute;
-    bottom: 2rem;
-    cursor: pointer;
+	position: absolute;
+	bottom: 2rem;
+	left: 2rem;
+	cursor: pointer;
+}
+
+@media (max-width: 600px) {
+	.sidebar {
+		padding: 0.5rem;
+		width: 15%;
+	}
+	.iconwrap .hideText {
+		display: none;
+	}
+	.iconwrap span {
+		margin: 0;
+	}
+	.iconwrap {
+		justify-content: center;
+	}
+	.sidebarheading {
+		font-size: 1rem;
+		font-weight: 500;
+		transform: rotate(-90deg);
+		margin: 4rem 0rem 1rem 0rem;
+	}
+	.logout {
+		left: 1rem;
+	}
 }

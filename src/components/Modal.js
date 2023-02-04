@@ -115,13 +115,13 @@ const Modal = ({ closeModal, notes, status, setNotes, db, collection2 }) => {
             <form className="content">
                 {!!note.description.length && closeicon()}
                 <input onChange={handleNoteChange} value={note.title} id="title1"></input>
-                <div className="created">
+                {/* <div className="created">
                     <div className="width">Edited by:</div>
                     <div>{note.user}</div>
-                </div>
+                </div> */}
 
                 <div className="descriptiondiv">
-                    <div className="width">Description:</div>
+                    {/* <div className="width">Description:</div> */}
                     <textarea
                         onChange={handleNoteChange}
                         value={note.description}
