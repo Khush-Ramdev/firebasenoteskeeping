@@ -21,10 +21,10 @@ function Notes({ path, results, db }) {
         setFilteredNotes(results);
     }, [results]);
 
-    useEffect(() => {
-        // console.log("notes:", notes);
-        // console.log("filterednotes", filteredNotes);
-    }, [notes, filteredNotes]);
+    // useEffect(() => {
+    //     console.log("notes:", notes);
+    //     console.log("filterednotes", filteredNotes);
+    // }, [notes, filteredNotes]);
 
     const notepopup = (e) => {
         const ind = e.target.getAttribute("name");
@@ -33,7 +33,7 @@ function Notes({ path, results, db }) {
 
     useEffect(() => {
         if (text) {
-            setFilteredNotes(notes.filter((note) => note.title.toLowerCase().includes(text)));
+            setFilteredNotes(notes.filter((note) => note.title.toLowerCase().includes(text.toLowerCase())));
         } else {
             setFilteredNotes(notes);
         }

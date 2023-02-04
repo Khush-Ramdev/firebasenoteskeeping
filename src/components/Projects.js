@@ -85,13 +85,13 @@ function Projects() {
     return (
         <div className="projects">
             <div className="projectsheading">Projects</div>
-            <DragDropContext onDragEnd={handleDragEnd}>
-                <div className="projectGrid">
+            <div className="projectGrid">
+                <DragDropContext onDragEnd={handleDragEnd}>
                     <Collection path={"todo"} results={notes} db={db} />
                     <Collection path={"progress"} results={notes} db={db} />
                     <Collection path={"completed"} results={notes} db={db} />
-                </div>
-            </DragDropContext>
+                </DragDropContext>
+            </div>
         </div>
     );
 }
