@@ -17,21 +17,17 @@
 	grid-template-columns: repeat(3, 1fr);
 	box-sizing: border-box;
 	gap: 1rem;
-	/* height: 90%; */
-	/* overflow: scroll; */
 }
 
 @media (max-width: 600px) {
 	.projects {
 		overflow: auto;
-	}
-	.projectsheading {
-		padding: 0.5rem;
-		/* he */
+		padding-right: 0.2rem;
 	}
 	.projectGrid {
 		grid-template-columns: repeat(1, 1fr);
-		padding: 0.5rem;
+		/* padding: 0.5rem; */
+		padding-right: 0;
 		gap: 0.2rem;
 		overflow-y: auto;
 	}

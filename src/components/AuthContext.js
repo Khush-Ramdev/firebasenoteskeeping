@@ -10,6 +10,7 @@ import {
     updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase";
+import image from '../assests/loading.gif';
 
 const UserContext = createContext();
 
@@ -51,7 +52,7 @@ export const AuthContextProvider = ({ children }) => {
     }, []);
 
     if (pending) {
-        return <div>Loading</div>;
+        return <div className="loading"><img src={image} alt='Loading'></img></div>;
     }
 
     return (

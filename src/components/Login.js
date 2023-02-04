@@ -72,6 +72,7 @@ function Login() {
                                 className="inputfields"
                                 placeholder="Email"
                                 type="email"
+                                autoComplete='username'
                                 ref={emailref}
                             ></input>
                             <div style={{ position: "relative" }}>
@@ -79,6 +80,7 @@ function Login() {
                                     className="inputfields"
                                     placeholder="Pasword"
                                     type={showPass ? "text" : "password"}
+                                    autoComplete='current-password'
                                     ref={passwordref}
                                 ></input>
                                 <button
@@ -88,7 +90,7 @@ function Login() {
                                     }}
                                     className="showpass"
                                 >
-                                    {showPass ? <i class="fas fa-eye-slash"></i> : <i class="fas fa-eye"></i>}
+                                    {showPass ? <i className="fas fa-eye-slash"></i> : <i className="fas fa-eye"></i>}
                                 </button>
                             </div>
                         </div>
